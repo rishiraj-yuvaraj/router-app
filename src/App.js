@@ -7,7 +7,7 @@ import { Header } from './component/Header'
 
 
 
-const Movie_List = [
+const Initial_Movie_List = [
   {
     name: "Vikram",
     poster:
@@ -80,29 +80,29 @@ const Movie_List = [
   }
 ];
 
-const MovieList = [
-  {
-    id : 1,
-    name : "Vikram",
-    rating : "⭐ 8.4",
-    description : "some description",
-    poster : "https://th.bing.com/th/id/OIP.8XfOHUBg-hzg3-fyNbI1AgAAAA?pid=ImgDet&rs=1"
-  },
-  {
-    id : 2,
-    name : "Naruto",
-    rating : "⭐ 9.8",
-    description : "some description",
-    poster : "https://th.bing.com/th/id/OIP.JqjUpQZnjt6vMbWt5F95WgAAAA?pid=ImgDet&w=400&h=600&rs=1"
-  },
-  {
-    id : 3,
-    name : "Tokyo Revengers",
-    rating : "⭐ 9.7",
-    description : "some description",
-    poster : "https://th.bing.com/th/id/OIP.ei8yzGP6-0AtDCx38w7PigHaLH?pid=ImgDet&rs=1"
-  },
-]
+// const MovieList = [
+//   {
+//     id : 1,
+//     name : "Vikram",
+//     rating : "⭐ 8.4",
+//     description : "some description",
+//     poster : "https://th.bing.com/th/id/OIP.8XfOHUBg-hzg3-fyNbI1AgAAAA?pid=ImgDet&rs=1"
+//   },
+//   {
+//     id : 2,
+//     name : "Naruto",
+//     rating : "⭐ 9.8",
+//     description : "some description",
+//     poster : "https://th.bing.com/th/id/OIP.JqjUpQZnjt6vMbWt5F95WgAAAA?pid=ImgDet&w=400&h=600&rs=1"
+//   },
+//   {
+//     id : 3,
+//     name : "Tokyo Revengers",
+//     rating : "⭐ 9.7",
+//     description : "some description",
+//     poster : "https://th.bing.com/th/id/OIP.ei8yzGP6-0AtDCx38w7PigHaLH?pid=ImgDet&rs=1"
+//   },
+// ]
 
 
 
@@ -148,63 +148,97 @@ function Counter(){
 
 
 
-function Addcolor(){
-  const [color, setColor] = useState('pink')
-  const styles ={
-    background : color,
-  };
+// function Addcolor(){
+//   const [color, setColor] = useState('pink')
+//   const styles ={
+//     background : color,
+//   };
 
-  const [colorList, setColorList] = useState(["red", "yellow", "orange"]);
-  return(
-    <div>
-      <input type="text" style={styles} onChange={(event)=>setColor(event.target.value)} value={color} />
-      <button onClick={()=>setColorList([...colorList, color])}>Add Color</button>
-      {/* {color} */}
+//   const [colorList, setColorList] = useState(["red", "yellow", "orange"]);
+//   return(
+//     <div>
+//       <input type="text" style={styles} onChange={(event)=>setColor(event.target.value)} value={color} />
+//       <button onClick={()=>setColorList([...colorList, color])}>Add Color</button>
+//       {/* {color} */}
 
-      {colorList.map((clr)=><ColorBox clr={clr} />)}
+//       {colorList.map((clr)=><ColorBox clr={clr} />)}
       
-    </div>
-  )
-}
+//     </div>
+//   )
+// }
 
-function ColorBox({clr}){
-  const styles={
-    height: "25px",
-    width : "250px",
-    background : clr,
-    marginTop: "10px",
-  };
-  return<div style={styles}></div>
+// function ColorBox({clr}){
+//   const styles={
+//     height: "25px",
+//     width : "250px",
+//     background : clr,
+//     marginTop: "10px",
+//   };
+//   return<div style={styles}></div>
   
-}
+// }
+
+
 
 
 function App() {
-  const[movies, setMovies] = useState(MovieList);
+  // const[movies, setMovies] = useState(MovieList);
 
-  const movieList =Movie_List;
+  const [movieList, setMovieList] = useState(Initial_Movie_List);
   return (
     <div className="App">
+       {/* <Addcolor /> */}
        
-       {/* <div className="movie-list">
-          {movieList.map((mv) => (
-          <Movie movie={mv}/>
-          ))}      
-        </div> */}
-
-
+    
+        
       {/* <Header />
       <Footer /> */}
-      <browserRouter>
+      {/* <browserRouter>
         <Routes>
         <Route path="/Home" element={<Home movies= {movies} />}></Route>
         <Route path ="/Header" element={<Header />}></Route>
         </Routes>
-      </browserRouter>
-      <Addcolor />
+      </browserRouter> */}
       
+  <Movielist movieList = {movieList}  setMovieList = {setMovieList} />
     </div>
   );
+}
+
+function Movielist({movieList, setMovieList}){
+  const [name, setName] = useState("")
+  const [poster, setPoster] = useState("")
+  const [rating, setRating] = useState("")
+  const [summary, setSummary] = useState("")
+
+  const addMovie = () => {
+    const newMovie = {
+      name : name,
+      poster : poster,
+      rating : rating,
+      summary : summary,
+    };
+    console.log(newMovie);
+
+    setMovieList([...movieList, newMovie]);
+  }
+
+  return(
+    <div>
+      <div className="add-movie-container">
+        <input type="text" placeholder = "Name" onChange={(event)=>setName(event.target.value)} value={name} />
+        <input type="text" placeholder = "Poster" onChange={(event)=>setPoster(event.target.value)} value={poster} />
+        <input type="text" placeholder = "Rating" onChange={(event)=>setRating(event.target.value)} value={rating} />
+        <input type="text" placeholder = "Summary" onChange={(event)=>setSummary(event.target.value)} value={summary} />
+        <button onClick={addMovie}>Add Movie</button>
+      </div>
+    <div className="movie-list">
+          {movieList.map((mv) => (
+          <Movie movie={mv}/>
+          ))}      
+        </div>
+        </div>
+  )
 }
 
 export default App;
