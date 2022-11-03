@@ -1,9 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
-import Home from './component/Home';
-import { Routes, Route } from 'react-router-dom';
+import { Home } from './component/Home';
+import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import { Header } from './component/Header'
+import { Addcolor } from './Addcolor';
+import { NotFound } from "./component/Not Found"
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
+
 
 
 
@@ -132,7 +138,9 @@ const styles = {
     <button onClick={()=>setShow(!show)}>Toggle Summary</button>
     { show ? <p className="movie-summary">{movie.summary}</p> : null}
     <Counter />
+    
   </div> 
+  
   )}
 
 function Counter(){
@@ -148,39 +156,6 @@ function Counter(){
 
 
 
-// function Addcolor(){
-//   const [color, setColor] = useState('pink')
-//   const styles ={
-//     background : color,
-//   };
-
-//   const [colorList, setColorList] = useState(["red", "yellow", "orange"]);
-//   return(
-//     <div>
-//       <input type="text" style={styles} onChange={(event)=>setColor(event.target.value)} value={color} />
-//       <button onClick={()=>setColorList([...colorList, color])}>Add Color</button>
-//       {/* {color} */}
-
-//       {colorList.map((clr)=><ColorBox clr={clr} />)}
-      
-//     </div>
-//   )
-// }
-
-// function ColorBox({clr}){
-//   const styles={
-//     height: "25px",
-//     width : "250px",
-//     background : clr,
-//     marginTop: "10px",
-//   };
-//   return<div style={styles}></div>
-  
-// }
-
-
-
-
 function App() {
   // const[movies, setMovies] = useState(MovieList);
 
@@ -188,19 +163,36 @@ function App() {
   return (
     <div className="App">
        {/* <Addcolor /> */}
-       
-    
-        
       {/* <Header />
       <Footer /> */}
-      {/* <browserRouter>
+      <div className="welcome-note">
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to ="/films">Movies</Link></li>
+        <li><Link to="/color-game">Color Game</Link></li>
+      </ul>
+
+
+
+
+      </div>
+
+
+
+      <browserRouter>
         <Routes>
-        <Route path="/Home" element={<Home movies= {movies} />}></Route>
-        <Route path ="/Header" element={<Header />}></Route>
+        <Route path ="/" element={<Home />}></Route>
+        <Route path="/movies" element={<Movielist movieList = {movieList}  setMovieList = {setMovieList} />}></Route>
+        <Route path ="/films" element={<Navigate replace to = "/movies" />}/>
+        <Route path ="/color-game" element={<Addcolor />}></Route>
+        <Route path ="*" element={<NotFound />}></Route>
         </Routes>
-      </browserRouter> */}
+      </browserRouter>
+
       
-  <Movielist movieList = {movieList}  setMovieList = {setMovieList} />
+      {/* <NotFound /> */}
+      
+  {/* <Movielist movieList = {movieList}  setMovieList = {setMovieList} /> */}
     </div>
   );
 }
@@ -226,11 +218,17 @@ function Movielist({movieList, setMovieList}){
   return(
     <div>
       <div className="add-movie-container">
-        <input type="text" placeholder = "Name" onChange={(event)=>setName(event.target.value)} value={name} />
-        <input type="text" placeholder = "Poster" onChange={(event)=>setPoster(event.target.value)} value={poster} />
-        <input type="text" placeholder = "Rating" onChange={(event)=>setRating(event.target.value)} value={rating} />
-        <input type="text" placeholder = "Summary" onChange={(event)=>setSummary(event.target.value)} value={summary} />
-        <button onClick={addMovie}>Add Movie</button>
+        {/* <input type="text" placeholder = "Name" onChange={(event)=>setName(event.target.value)} value={name} /> */}
+        <TextField id="outlined-basic" label="Movie Name"  variant="outlined" onChange={(event)=>setName(event.target.value)} value={name} />
+        {/* <input type="text" placeholder = "Poster" onChange={(event)=>setPoster(event.target.value)} value={poster} /> */}
+        <TextField id="outlined-basic" label="Poster" variant="outlined" onChange={(event)=>setPoster(event.target.value)} value={poster} />
+        {/* <input type="text" placeholder = "Rating" onChange={(event)=>setRating(event.target.value)} value={rating} /> */}
+        <TextField id="outlined-basic" label="Rating" variant="outlined" onChange={(event)=>setRating(event.target.value)} value={rating} />
+        {/* <input type="text" placeholder = "Summary" onChange={(event)=>setSummary(event.target.value)} value={summary} /> */}
+        <TextField id="outlined-basic" label="Summary" variant="outlined" onChange={(event)=>setSummary(event.target.value)} value={summary} />
+
+        {/* <button onClick={addMovie}>Add Movie</button> */}
+        <Button  onClick={addMovie} variant="contained">Add Movie</Button>
       </div>
     <div className="movie-list">
           {movieList.map((mv) => (
