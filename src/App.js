@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Home } from './component/Home';
 import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import { Header } from './component/Header'
-import { Addcolor } from './Addcolor';
+import { Addcolor } from "./component/AddColor";
 import { NotFound } from "./component/Not Found"
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
