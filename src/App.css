@@ -55,6 +55,7 @@
 .movie-container{
   background-color: lightgray;
   width:340px;
+  height: min-content;
 }
 /* .movie-list {
   display: grid;
@@ -71,11 +72,20 @@
 
 .add-movie-container{
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   max-width: 300px;
   margin: 0.5rem auto;
   gap: 1rem;
 }
+
 .welcome-note{
   text-align: left;
+}
+
+.add-movie-container{
+  display: flex;
+  flex-direction: column;
+}
+.content-gap{
+  margin-bottom: 1rem;
 }

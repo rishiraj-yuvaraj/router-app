@@ -2,13 +2,25 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import { Home } from './component/Home';
-import { Routes, Route, Link, Navigate } from 'react-router-dom';
-import { Header } from './component/Header'
+import { Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
+import { Header } from './component/Header';
 import { Addcolor } from "./component/AddColor";
 import { NotFound } from "./component/Not Found"
+import { Counter } from './Counter';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import { Addmovie } from './Addmovie';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 
+import MenuIcon from '@mui/icons-material/Menu';
 
 
 
@@ -112,7 +124,7 @@ const Initial_Movie_List = [
 
 
 
-function Movie( {movie} ){
+export function Movie( {movie} ){
 
   const [show, setShow] = useState(true);
 
@@ -129,53 +141,59 @@ const styles = {
   // }
   return (
   
-  <div className ="movie-container">
+  <Card className ="movie-container">
     <img src ={movie.poster} alt ={movie.name} className ="movie-poster" /> 
-    <div className ="movie-specs">
-     <h3 className ="movie-name">{movie.name}</h3>
+    <CardContent className ="movie-specs">
+     <h3 className ="movie-name">{movie.name} 
+      <IconButton color="primary" aria-label="add to shopping cart" onClick={()=>setShow(!show)}>
+      { show ? <ExpandLessIcon /> : <ExpandMoreIcon /> }
+      </IconButton>
+    </h3>
+     
      <p style={styles} className="movie-rating">⭐{movie.rating}</p>
-    </div>
-    <button onClick={()=>setShow(!show)}>Toggle Summary</button>
-    { show ? <p className="movie-summary">{movie.summary}</p> : null}
-    <Counter />
+    </CardContent>
+
     
-  </div> 
+    {/* <button onClick={()=>setShow(!show)}>Toggle Summary</button> */}
+    { show ? <p className="movie-summary">{movie.summary}</p> : null}
+    <CardActions>
+    <Counter />
+    </CardActions>
+  </Card> 
   
   )}
-
-function Counter(){
-  const [like, setLike] = useState(0);
-  const [dislike, setDislike] = useState(0);
-  return(
-    <div>
-      <button onClick={()=>setLike(like+1)}> 👍 { like }</button>
-      <button onClick={()=>setDislike(dislike+1)}> 👎 { dislike }</button>
-    </div>
-  )
-}
-
-
 
 function App() {
   // const[movies, setMovies] = useState(MovieList);
 
   const [movieList, setMovieList] = useState(Initial_Movie_List);
+  const navigate = useNavigate();
+
   return (
     <div className="App">
+      
        {/* <Addcolor /> */}
       {/* <Header />
       <Footer /> */}
-      <div className="welcome-note">
+      <div className="content-gap">
+      <AppBar position="static">
+        <Toolbar>
+          <Button color="inherit" onClick={()=>navigate("/")}>Home</Button>
+          <Button color="inherit" onClick={()=>navigate("/films")}>Movies</Button>
+          <Button color="inherit" onClick={()=>navigate("/movie/add")}>Add Movie</Button>
+          <Button color="inherit" onClick={()=>navigate("/color-game")}>Color Game</Button>
+        </Toolbar>
+      </AppBar>
+      </div>
+      
+    {/* <div className="welcome-note">
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to ="/films">Movies</Link></li>
+        <li><Link to="/movie/add">Add Movie</Link></li>
         <li><Link to="/color-game">Color Game</Link></li>
       </ul>
-
-
-
-
-      </div>
+    </div> */}
 
 
 
@@ -185,6 +203,7 @@ function App() {
         <Route path="/movies" element={<Movielist movieList = {movieList}  setMovieList = {setMovieList} />}></Route>
         <Route path ="/films" element={<Navigate replace to = "/movies" />}/>
         <Route path ="/color-game" element={<Addcolor />}></Route>
+        <Route path ="/movie/add" element={<Addmovie movieList = {movieList}  setMovieList = {setMovieList}/>}></Route>
         <Route path ="*" element={<NotFound />}></Route>
         </Routes>
       </browserRouter>
@@ -197,46 +216,15 @@ function App() {
   );
 }
 
-function Movielist({movieList, setMovieList}){
-  const [name, setName] = useState("")
-  const [poster, setPoster] = useState("")
-  const [rating, setRating] = useState("")
-  const [summary, setSummary] = useState("")
-
-  const addMovie = () => {
-    const newMovie = {
-      name : name,
-      poster : poster,
-      rating : rating,
-      summary : summary,
-    };
-    console.log(newMovie);
-
-    setMovieList([...movieList, newMovie]);
-  }
+function Movielist({ movieList, setMovieList }){
+  // setMovieList([...movieList, newMovie]);
 
   return(
-    <div>
-      <div className="add-movie-container">
-        {/* <input type="text" placeholder = "Name" onChange={(event)=>setName(event.target.value)} value={name} /> */}
-        <TextField id="outlined-basic" label="Movie Name"  variant="outlined" onChange={(event)=>setName(event.target.value)} value={name} />
-        {/* <input type="text" placeholder = "Poster" onChange={(event)=>setPoster(event.target.value)} value={poster} /> */}
-        <TextField id="outlined-basic" label="Poster" variant="outlined" onChange={(event)=>setPoster(event.target.value)} value={poster} />
-        {/* <input type="text" placeholder = "Rating" onChange={(event)=>setRating(event.target.value)} value={rating} /> */}
-        <TextField id="outlined-basic" label="Rating" variant="outlined" onChange={(event)=>setRating(event.target.value)} value={rating} />
-        {/* <input type="text" placeholder = "Summary" onChange={(event)=>setSummary(event.target.value)} value={summary} /> */}
-        <TextField id="outlined-basic" label="Summary" variant="outlined" onChange={(event)=>setSummary(event.target.value)} value={summary} />
-
-        {/* <button onClick={addMovie}>Add Movie</button> */}
-        <Button  onClick={addMovie} variant="contained">Add Movie</Button>
-      </div>
     <div className="movie-list">
-          {movieList.map((mv) => (
-          <Movie movie={mv}/>
-          ))}      
-        </div>
-        </div>
+        {movieList.map((mv) => (
+          <Movie movie={mv} />
+        ))}
+    </div>
   )
-}
-
+};
 export default App;
