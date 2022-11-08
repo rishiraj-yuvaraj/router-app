@@ -82,10 +82,11 @@
   text-align: left;
 }
 
-.add-movie-container{
+/* .add-movie-container{
   display: flex;
   flex-direction: column;
-}
+} */
+
 .content-gap{
   margin-bottom: 1rem;
 }

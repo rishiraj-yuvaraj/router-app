@@ -14,7 +14,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import { Addmovie } from './Addmovie';
+import { Addmovie } from './component/AddMovie';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';

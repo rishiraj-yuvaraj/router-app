@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Movie } from './App';
+import { Movie } from '../../App';
+import "./addmovie.css";
 
 
   export function Addmovie({ movieList, setMovieList }){
@@ -25,7 +26,7 @@ import { Movie } from './App';
 
   return (
     <div>
-      <div classNameName="add-movie-container">
+      <div className="add-movie-container">
         {/* <input type="text" placeholder = "Name" onChange={(event)=>setName(event.target.value)} value={name} /> */}
         <TextField id="outlined-basic" label="Movie Name" variant="outlined" onChange={(event) => setName(event.target.value)} value={name} />
         {/* <input type="text" placeholder = "Poster" onChange={(event)=>setPoster(event.target.value)} value={poster} /> */}
