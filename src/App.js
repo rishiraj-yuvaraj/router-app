@@ -19,8 +19,12 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
+import Paper from '@mui/material/Paper';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+
 
 
 
@@ -98,6 +102,10 @@ const Initial_Movie_List = [
   }
 ];
 
+
+
+
+
 // const MovieList = [
 //   {
 //     id : 1,
@@ -151,11 +159,14 @@ const styles = {
     </h3>
      
      <p style={styles} className="movie-rating">⭐{movie.rating}</p>
+
+     
     </CardContent>
 
-    
+    <CardActions>
     {/* <button onClick={()=>setShow(!show)}>Toggle Summary</button> */}
     { show ? <p className="movie-summary">{movie.summary}</p> : null}
+    </CardActions>
     <CardActions>
     <Counter />
     </CardActions>
@@ -167,9 +178,29 @@ function App() {
   // const[movies, setMovies] = useState(MovieList);
 
   const [movieList, setMovieList] = useState(Initial_Movie_List);
+  
+  const [mode, setMode] = useState("dark")
+
+  const themeCtx = createTheme({
+  palette: {
+    mode: mode,
+  },
+});
+
   const navigate = useNavigate();
 
+  fetch('https://636e65a3182793016f3fb576.mockapi.io/movies')
+  .then(data => data.json())
+  .then(mvs => console.log(mvs));
+
+
   return (
+    <ThemeProvider theme={themeCtx}>
+    <Paper sx = {{
+      minHeight: "100vh",
+      borderRadius: "0px",
+    }} 
+    elevation={4}>
     <div className="App">
       
        {/* <Addcolor /> */}
@@ -182,6 +213,13 @@ function App() {
           <Button color="inherit" onClick={()=>navigate("/films")}>Movies</Button>
           <Button color="inherit" onClick={()=>navigate("/movie/add")}>Add Movie</Button>
           <Button color="inherit" onClick={()=>navigate("/color-game")}>Color Game</Button>
+          <Button 
+          sx={{
+            marginLeft : "auto",
+          }}
+          startIcon= {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          color="inherit" onClick={()=>setMode(mode === "dark" ? "light" : "dark" )}>
+          {mode === "dark" ? "light" : "dark"} Mode</Button>
         </Toolbar>
       </AppBar>
       </div>
@@ -213,6 +251,8 @@ function App() {
       
   {/* <Movielist movieList = {movieList}  setMovieList = {setMovieList} /> */}
     </div>
+    </Paper>
+    </ThemeProvider>
   );
 }
 
