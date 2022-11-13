@@ -93,3 +93,13 @@
 .movie-summary{
   text-align: left;
 }
+
+.movie-details-container{
+  max-width: 750px;
+  padding: 0 16px;
+}
+.back-button-container{
+  display: flex;
+  padding : 40px 8px;
+  
+}

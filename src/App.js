@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Home } from './component/Home';
-import { Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Header } from './component/Header';
 import { Addcolor } from "./component/AddColor";
 import { NotFound } from "./component/Not Found"
@@ -24,6 +24,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Paper from '@mui/material/Paper';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { Movielist } from './Movielist';
+import InfoIcon from '@mui/icons-material/Info';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 
@@ -132,7 +136,7 @@ const Initial_Movie_List = [
 
 
 
-export function Movie( {movie} ){
+export function Movie( {movie, deleteButton} ){
 
   const [show, setShow] = useState(true);
 
@@ -147,6 +151,9 @@ const styles = {
   //   summary:
   //     "Members of a black ops team must track and eliminate a gang of masked murderers."
   // }
+
+  const Navigate = useNavigate();
+
   return (
   
   <Card className ="movie-container">
@@ -156,6 +163,11 @@ const styles = {
       <IconButton color="primary" aria-label="add to shopping cart" onClick={()=>setShow(!show)}>
       { show ? <ExpandLessIcon /> : <ExpandMoreIcon /> }
       </IconButton>
+      <IconButton color="primary" aria-label="add to shopping cart" 
+        onClick={()=>Navigate(`/movies/${movie.id}`)}>
+      <InfoIcon />
+      </IconButton>
+      
     </h3>
      
      <p style={styles} className="movie-rating">⭐{movie.rating}</p>
@@ -168,7 +180,8 @@ const styles = {
     { show ? <p className="movie-summary">{movie.summary}</p> : null}
     </CardActions>
     <CardActions>
-    <Counter />
+    <Counter /> {deleteButton}
+    
     </CardActions>
   </Card> 
   
@@ -177,7 +190,7 @@ const styles = {
 function App() {
   // const[movies, setMovies] = useState(MovieList);
 
-  const [movieList, setMovieList] = useState(Initial_Movie_List);
+  const [movieList, setMovieList] = useState([]);
   
   const [mode, setMode] = useState("dark")
 
@@ -185,13 +198,13 @@ function App() {
   palette: {
     mode: mode,
   },
+  
 });
 
   const navigate = useNavigate();
 
-  fetch('https://636e65a3182793016f3fb576.mockapi.io/movies')
-  .then(data => data.json())
-  .then(mvs => console.log(mvs));
+
+
 
 
   return (
@@ -238,10 +251,12 @@ function App() {
       <browserRouter>
         <Routes>
         <Route path ="/" element={<Home />}></Route>
-        <Route path="/movies" element={<Movielist movieList = {movieList}  setMovieList = {setMovieList} />}></Route>
+        {/* <Route path="/movies" element={<Movielist movieList = {movieList}  setMovieList = {setMovieList} />}></Route> */}
+        <Route path="/movies" element={<Movielist />}></Route>
         <Route path ="/films" element={<Navigate replace to = "/movies" />}/>
         <Route path ="/color-game" element={<Addcolor />}></Route>
         <Route path ="/movie/add" element={<Addmovie movieList = {movieList}  setMovieList = {setMovieList}/>}></Route>
+        <Route path ="/movies/:id" element={<MovieDetail />}></Route>
         <Route path ="*" element={<NotFound />}></Route>
         </Routes>
       </browserRouter>
@@ -256,15 +271,54 @@ function App() {
   );
 }
 
-function Movielist({ movieList, setMovieList }){
-  // setMovieList([...movieList, newMovie]);
+function MovieDetail(){
+const { id } = useParams()
+console.log({ id });
+
+
+const [movie, setMovie] = useState({});
+
+
+const getMovie = () => {
+    fetch(`https://636e65a3182793016f3fb576.mockapi.io/movies/${id}`, {method: "GET"})
+    .then((data) => data.json())
+    .then((mv) => setMovie(mv));
+  }
+
+ useEffect(() => getMovie(), []);
+
+ const navigate = useNavigate();
+
+
 
   return(
-    <div className="movie-list">
-        {movieList.map((mv) => (
-          <Movie movie={mv} />
-        ))}
+    <div>
+    <iframe 
+    width="100%" 
+    height="397" 
+    src= {movie.trailer} 
+    title="Love Today - Official Trailer | @Pradeep Ranganathan  | Yuvan Shankar Raja | AGS" 
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+    </iframe>
+
+    <div className="movie-details-container">
+    <div>
+      <div className ="movie-specs">
+      <h3 className ="movie-name">{movie.name} </h3>
+      <p className="movie-rating">⭐{movie.rating}</p>
+      </div>
+      <div>
+        <p className="movie-summary">{movie.summary}</p> 
+      </div>
+     <div className='back-button-container'>
+      <Button startIcon={<ArrowBackIcon />}
+      variant="contained" onClick={()=> navigate(-1)} >Back</Button></div>
+    
+    </div>
+    </div>
     </div>
   )
-};
+}
+
 export default App;
