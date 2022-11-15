@@ -6,7 +6,7 @@ import { Routes, Route, Link, Navigate, useNavigate, useParams } from 'react-rou
 import { Header } from './component/Header';
 import { Addcolor } from "./component/AddColor";
 import { NotFound } from "./component/Not Found"
-import { Counter } from './Counter';
+import { Counter } from './component/Counter/Counter';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -24,7 +24,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Paper from '@mui/material/Paper';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { Movielist } from './Movielist';
+import { Movielist } from './component/MovieList/Movielist';
 import InfoIcon from '@mui/icons-material/Info';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -186,6 +186,9 @@ const styles = {
   </Card> 
   
   )}
+
+
+
 
 function App() {
   // const[movies, setMovies] = useState(MovieList);
