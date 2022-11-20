@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Home } from './component/Home';
-import { Routes, Route, Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
 import { Header } from './component/Header';
 import { Addcolor } from "./component/AddColor";
 import { NotFound } from "./component/Not Found"
@@ -27,7 +27,8 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { Movielist } from './component/MovieList/Movielist';
 import InfoIcon from '@mui/icons-material/Info';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { MovieDetail } from './component/MovieDetail/MovieDetail';
+import { BasicForm } from './BasicForm';
 
 
 
@@ -260,6 +261,7 @@ function App() {
         <Route path ="/color-game" element={<Addcolor />}></Route>
         <Route path ="/movie/add" element={<Addmovie movieList = {movieList}  setMovieList = {setMovieList}/>}></Route>
         <Route path ="/movies/:id" element={<MovieDetail />}></Route>
+        <Route path ="/basicform" element={<BasicForm />}></Route>
         <Route path ="*" element={<NotFound />}></Route>
         </Routes>
       </browserRouter>
@@ -272,56 +274,6 @@ function App() {
     </Paper>
     </ThemeProvider>
   );
-}
-
-function MovieDetail(){
-const { id } = useParams()
-console.log({ id });
-
-
-const [movie, setMovie] = useState({});
-
-
-const getMovie = () => {
-    fetch(`https://636e65a3182793016f3fb576.mockapi.io/movies/${id}`, {method: "GET"})
-    .then((data) => data.json())
-    .then((mv) => setMovie(mv));
-  }
-
- useEffect(() => getMovie(), []);
-
- const navigate = useNavigate();
-
-
-
-  return(
-    <div>
-    <iframe 
-    width="100%" 
-    height="397" 
-    src= {movie.trailer} 
-    title="Love Today - Official Trailer | @Pradeep Ranganathan  | Yuvan Shankar Raja | AGS" 
-    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen>
-    </iframe>
-
-    <div className="movie-details-container">
-    <div>
-      <div className ="movie-specs">
-      <h3 className ="movie-name">{movie.name} </h3>
-      <p className="movie-rating">⭐{movie.rating}</p>
-      </div>
-      <div>
-        <p className="movie-summary">{movie.summary}</p> 
-      </div>
-     <div className='back-button-container'>
-      <Button startIcon={<ArrowBackIcon />}
-      variant="contained" onClick={()=> navigate(-1)} >Back</Button></div>
-    
-    </div>
-    </div>
-    </div>
-  )
 }
 
 export default App;

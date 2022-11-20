@@ -103,3 +103,9 @@
   padding : 40px 8px;
   
 }
+
+.basic-form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
