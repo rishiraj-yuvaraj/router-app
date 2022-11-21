@@ -109,3 +109,8 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.basicform-container{
+  width: 300px;
+  margin: 0 auto;
+}

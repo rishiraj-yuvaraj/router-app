@@ -230,13 +230,14 @@ function App() {
           <Button color="inherit" onClick={()=>navigate("/films")}>Movies</Button>
           <Button color="inherit" onClick={()=>navigate("/movie/add")}>Add Movie</Button>
           <Button color="inherit" onClick={()=>navigate("/color-game")}>Color Game</Button>
+          <Button color="inherit" onClick={()=>navigate("/basicform")}>Basic Form</Button>
           <Button 
           sx={{
             marginLeft : "auto",
           }}
           startIcon= {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           color="inherit" onClick={()=>setMode(mode === "dark" ? "light" : "dark" )}>
-          {mode === "dark" ? "light" : "dark"} Mode</Button>
+          {mode === "dark" ? "light" : "dark"} Mode </Button>
         </Toolbar>
       </AppBar>
       </div>

@@ -1,5 +1,7 @@
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 export function BasicForm() {
 
@@ -9,25 +11,35 @@ export function BasicForm() {
   })
   const formik = useFormik({
     initialValues : {
-      email : "rishiraj@gmail.com",
-      password : "rishi",
+      email : "",
+      password : "",
     },
 
-    validationSchema : formValidationSchema,
-    onSubmit : (values) => {
+      validationSchema : formValidationSchema,
+      onSubmit : (values) => {
       console.log("your values are submitted", values);
     }
   })
 
   
   return (
+    <div className = "basicform-container">
     <form className = "basic-form" onSubmit = {formik.handleSubmit}>
-      <input name="email" type="email" placeholder="Email" value={formik.values.email} onChange ={formik.handleChange} onBlur = {formik.handleBlur} />
+     <TextField id="outlined-basic" 
+          label="Email" 
+          variant="outlined"
+          name="email" type="email" value={formik.values.email} onChange ={formik.handleChange} onBlur = {formik.handleBlur} />
       {formik.touched.email && formik.errors.email ? formik.errors.email : null}
-      <input name="password" type="password" placeholder="password" value={formik.values.password} onChange ={formik.handleChange} onBlur = {formik.handleBlur} />
+      {/* <input name="password" type="password" placeholder="password" value={formik.values.password} onChange ={formik.handleChange} onBlur = {formik.handleBlur} /> */}
+      <TextField id="outlined-basic" 
+          label="Password" 
+          variant="outlined"
+          name="password" type="password" value={formik.values.password} onChange ={formik.handleChange} onBlur = {formik.handleBlur} />
       {formik.touched.password && formik.errors.password ? formik.errors.password : null}
-      <button type="submit">Submit</button>
+      {/* <button type="submit">Submit</button> */}
+      <Button type="submit" variant="contained">Submit</Button>
     </form>
+    </div>
   );
 }
 
