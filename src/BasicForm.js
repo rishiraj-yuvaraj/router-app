@@ -28,14 +28,28 @@ export function BasicForm() {
      <TextField id="outlined-basic" 
           label="Email" 
           variant="outlined"
-          name="email" type="email" value={formik.values.email} onChange ={formik.handleChange} onBlur = {formik.handleBlur} />
-      {formik.touched.email && formik.errors.email ? formik.errors.email : null}
+          name="email" type="email" 
+          value={formik.values.email} 
+          onChange ={formik.handleChange} 
+          onBlur = {formik.handleBlur}
+          error = {formik.touched.email && formik.errors.email}
+          helperText= {formik.touched.email && formik.errors.email ? formik.errors.email : null}
+          />
+
+      {/* {formik.touched.email && formik.errors.email ? formik.errors.email : null} */}
       {/* <input name="password" type="password" placeholder="password" value={formik.values.password} onChange ={formik.handleChange} onBlur = {formik.handleBlur} /> */}
       <TextField id="outlined-basic" 
           label="Password" 
           variant="outlined"
-          name="password" type="password" value={formik.values.password} onChange ={formik.handleChange} onBlur = {formik.handleBlur} />
-      {formik.touched.password && formik.errors.password ? formik.errors.password : null}
+          name="password" type="password" 
+          value={formik.values.password} 
+          onChange ={formik.handleChange} 
+          onBlur = {formik.handleBlur} 
+          error = {formik.touched.password && formik.errors.password}
+          helperText = {formik.touched.password && formik.errors.password ? formik.errors.password : null}
+          />
+
+      {/* {formik.touched.password && formik.errors.password ? formik.errors.password : null} */}
       {/* <button type="submit">Submit</button> */}
       <Button type="submit" variant="contained">Submit</Button>
     </form>

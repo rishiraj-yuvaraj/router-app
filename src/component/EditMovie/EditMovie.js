@@ -1,48 +1,78 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Movie } from '../../App';
-import "./addmovie.css";
-import { Navigate, useNavigate} from 'react-router-dom';
+import "./editmovie.css";
+import { Navigate, useNavigate, useParams} from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 
-  export function Addmovie({ movieList, setMovieList }){
+  export function EditMovie({ movieList, setMovieList }){
   // const [name, setName] = useState("");
   // const [poster, setPoster] = useState("");
   // const [rating, setRating] = useState("");
   // const [summary, setSummary] = useState("");
   // const [trailer, setTrailer] = useState("");
 
+ 
+  
 
-  const AddMovieValidationSchema = yup.object({
+const { id } = useParams();
+  console.log({ id });
+
+
+  const [movie, setMovie] = useState(null);
+
+
+  const getMovie = () => {
+    fetch(`https://636e65a3182793016f3fb576.mockapi.io/movies/${id}`, { method: "GET" })
+      .then((data) => data.json())
+      .then((mv) => setMovie(mv));
+  };
+
+  useEffect(() => getMovie(), []);
+return(
+  <div>
+    {movie ? <EditmovieForm movie={movie}/> : null }
+  </div>
+)
+}
+
+
+//created another function in the same component to display name in the output box
+function EditmovieForm( { movie } ){
+
+   const AddMovieValidationSchema = yup.object({
     name : yup.string().required("Why not fill this Name"),
     poster : yup.string().required("Why not fill this poster").min(4, "Need more in poster"),
     rating : yup.number().required("Why not fill this rating").min(0).max(10),
     summary : yup.string().required("Why not fill this summary").min(4, "Need a bigger summary"),
     trailer : yup.string().required("Why not fill this trailer").min(5, "Need a bigger trailer"),
 })
+  
 
   const formik = useFormik({
     initialValues : {
-      name : "",
-      poster : "",
-      rating : "",
-      summary : "",
-      trailer : "",
+      name : movie.name,
+      poster :movie.poster,
+      rating :movie.rating,
+      summary :movie.summary,
+      trailer :movie.trailer,
     },
 
     validationSchema : AddMovieValidationSchema,
-    onSubmit : (newMovie) => {
-      console.log("your values are submitted", newMovie);
-      addMovie(newMovie);
+    onSubmit : (updatedMovie) => {
+      console.log("your values are submitted", updatedMovie);
+      updateMovie(updatedMovie);
     }
   })
 
+ 
+
   const Navigate = useNavigate();
 
-  const addMovie = (newMovie) => {
+  const updateMovie = (updatedMovie) => {
     // const newMovie = {
     //   name: name,
     //   poster: poster,
@@ -50,13 +80,13 @@ import * as yup from 'yup';
     //   summary: summary,
     //   trailer: trailer,
     // };
-    console.log(newMovie);
+    console.log(updatedMovie);
 
     // setMovieList([...movieList, newMovie]);
     
 
-    fetch('https://636e65a3182793016f3fb576.mockapi.io/movies', {method: "POST",
-    body : JSON.stringify(newMovie),
+    fetch(`https://636e65a3182793016f3fb576.mockapi.io/movies/${movie.id}`, {method: "PUT",
+    body : JSON.stringify(updatedMovie),
     headers: {
       "Content-Type": "application/json",
     },
@@ -69,7 +99,7 @@ import * as yup from 'yup';
 
   return (
     <form onSubmit = {formik.handleSubmit}>
-      <div className="add-movie-container">
+      <div className="edit-movie-container">
         {/* <input type="text" placeholder = "Name" onChange={(event)=>setName(event.target.value)} value={name} /> */}
         
         <TextField id="outlined-basic" 
@@ -82,6 +112,7 @@ import * as yup from 'yup';
           error = {formik.touched.name && formik.errors.name}
           helperText= {formik.touched.name && formik.errors.name ? formik.errors.name : null}
           />
+          
 
           {/* {formik.touched.name && formik.errors.name ? formik.errors.name : null} */}
            
@@ -142,7 +173,7 @@ import * as yup from 'yup';
 
         {/* <button onClick={addMovie}>Add Movie</button> */}
         {/* <Button onClick={addMovie} variant="contained">Add Movie</Button> */}
-        <Button type="submit" variant="contained">Add Movie</Button>
+        <Button type="submit" variant="contained" color="success">Edit Movie</Button>
       </div>
       
     </form>

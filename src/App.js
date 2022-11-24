@@ -27,8 +27,9 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { Movielist } from './component/MovieList/Movielist';
 import InfoIcon from '@mui/icons-material/Info';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { MovieDetail } from './component/MovieDetail/MovieDetail';
+import { MovieDetail } from './component/MovieDetails/MovieDetail';
 import { BasicForm } from './BasicForm';
+import { EditMovie } from './component/EditMovie/EditMovie';
 
 
 
@@ -137,7 +138,7 @@ const Initial_Movie_List = [
 
 
 
-export function Movie( {movie, deleteButton} ){
+export function Movie( {movie, deleteButton, editButton} ){
 
   const [show, setShow] = useState(true);
 
@@ -181,7 +182,7 @@ const styles = {
     { show ? <p className="movie-summary">{movie.summary}</p> : null}
     </CardActions>
     <CardActions>
-    <Counter /> {deleteButton}
+    <Counter /> {editButton} {deleteButton} 
     
     </CardActions>
   </Card> 
@@ -262,6 +263,7 @@ function App() {
         <Route path ="/color-game" element={<Addcolor />}></Route>
         <Route path ="/movie/add" element={<Addmovie movieList = {movieList}  setMovieList = {setMovieList}/>}></Route>
         <Route path ="/movies/:id" element={<MovieDetail />}></Route>
+        <Route path ="/movies/edit/:id" element={<EditMovie />}></Route>
         <Route path ="/basicform" element={<BasicForm />}></Route>
         <Route path ="*" element={<NotFound />}></Route>
         </Routes>
@@ -276,5 +278,6 @@ function App() {
     </ThemeProvider>
   );
 }
+
 
 export default App;
