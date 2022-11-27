@@ -169,21 +169,17 @@ const styles = {
         onClick={()=>Navigate(`/movies/${movie.id}`)}>
       <InfoIcon />
       </IconButton>
-      
     </h3>
-     
      <p style={styles} className="movie-rating">⭐{movie.rating}</p>
-
-     
     </CardContent>
 
     <CardActions>
     {/* <button onClick={()=>setShow(!show)}>Toggle Summary</button> */}
     { show ? <p className="movie-summary">{movie.summary}</p> : null}
     </CardActions>
+
     <CardActions>
     <Counter /> {editButton} {deleteButton} 
-    
     </CardActions>
   </Card> 
   
