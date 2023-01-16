@@ -6,6 +6,7 @@ import "./editmovie.css";
 import { Navigate, useNavigate, useParams} from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { API } from '../../globalApi';
 
 
   export function EditMovie({ movieList, setMovieList }){
@@ -26,7 +27,7 @@ const { id } = useParams();
 
 
   const getMovie = () => {
-    fetch(`https://636e65a3182793016f3fb576.mockapi.io/movies/${id}`, { method: "GET" })
+    fetch(`${API}/movies/${id}`, { method: "GET" })
       .then((data) => data.json())
       .then((mv) => setMovie(mv));
   };
@@ -85,7 +86,7 @@ function EditmovieForm( { movie } ){
     // setMovieList([...movieList, newMovie]);
     
 
-    fetch(`https://636e65a3182793016f3fb576.mockapi.io/movies/${movie.id}`, {method: "PUT",
+    fetch(`${API}/movies/${movie.id}`, {method: "PUT",
     body : JSON.stringify(updatedMovie),
     headers: {
       "Content-Type": "application/json",

@@ -6,6 +6,7 @@ import "./addmovie.css";
 import { Navigate, useNavigate} from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { API } from '../../globalApi';
 
 
   export function Addmovie({ movieList, setMovieList }){
@@ -55,7 +56,7 @@ import * as yup from 'yup';
     // setMovieList([...movieList, newMovie]);
     
 
-    fetch('https://636e65a3182793016f3fb576.mockapi.io/movies', {method: "POST",
+    fetch(`${API}/movies`, {method: "POST",
     body : JSON.stringify(newMovie),
     headers: {
       "Content-Type": "application/json",
